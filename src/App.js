@@ -1,25 +1,28 @@
-import logo from './logo.svg';
-import './App.css';
+import React, { useState } from "react";
+import CustomerView from "./CustomerView";
 
-function App() {
+export default function App() {
+  const [queue, setQueue] = useState([]); // Stores ticket numbers waiting
+  const [lastNumber, setLastNumber] = useState(0); // Last ticket issued
+  const [counters, setCounters] = useState([
+    { id: 1, ticket: null, status: "available" },
+    { id: 2, ticket: null, status: "available" },
+    { id: 3, ticket: null, status: "available" },
+    { id: 4, ticket: null, status: "available" },
+  ]);
+
+  const takeTicket = () => {
+    const newTicket = lastNumber + 1;
+    setQueue([...queue, newTicket]); 
+    setLastNumber(newTicket);
+
+    window.alert(`Your ticket number is: ${newTicket}`);
+  };
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div>
+      <h1>Ticket Counter System</h1>
+      <CustomerView takeTicket={takeTicket} lastNumber={lastNumber} queue={queue} counters={counters} />
     </div>
   );
 }
-
-export default App;
